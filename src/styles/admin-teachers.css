@@ -1,0 +1,25 @@
+.ad-teacher-subject-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(320px,.8fr);gap:18px}
+.ad-cell-note{display:block;margin-top:6px;color:var(--ad-muted)}
+.ad-tag-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.ad-tag-list>span{font-size:9px;padding:5px 8px;border-radius:20px;background:#edf2ff;color:#6079bd}
+.ad-tag-list>small{color:var(--ad-muted)}
+.ad-subject-list{display:flex;flex-direction:column}
+.ad-subject-list>article{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:12px;padding:17px 2px;border-bottom:1px solid var(--ad-border)}
+.ad-subject-list>article:last-child{border:0}
+.ad-subject-list h3{margin:3px 0 4px;font-size:12px}
+.ad-subject-list article>div>small{color:var(--ad-muted);font-size:9px}
+.ad-auto-id{display:flex;align-items:center;gap:7px;margin:0;padding:11px 13px;border-radius:11px;background:var(--ad-soft);color:var(--ad-muted);font-size:11px}
+.ad-auto-id strong{color:var(--ad-ink)}
+.ad-form-error{margin:0;padding:10px 12px;border-radius:10px;background:#fff0f4;color:#b53b65;font-size:10px;line-height:1.5}
+.ad-modal .ad-button:disabled{opacity:.6;cursor:wait}
+.ad-check-list{border:1px solid var(--ad-border);border-radius:13px;padding:10px 14px 14px}
+.ad-check-list legend{padding:0 6px;font-size:11px;font-weight:600}
+.ad-check-list>label{display:grid!important;grid-template-columns:auto auto 1fr;align-items:center;gap:10px!important;padding:9px 0;border-bottom:1px solid var(--ad-border)}
+.ad-check-list>label:last-of-type{border:0}
+.ad-check-list input{width:17px!important;height:17px!important;margin:0}
+.ad-check-list .ad-avatar{width:32px;height:32px}
+.ad-check-list span strong,.ad-check-list span small{display:block}
+.ad-check-list span small{margin-top:3px;color:var(--ad-muted);font-size:9px}
+.ad-class-id{display:inline-block;margin-bottom:8px;border-radius:20px;background:var(--ad-soft);color:var(--ad-muted);font-size:9px;padding:5px 8px}
+@media(max-width:1100px){.ad-teacher-subject-grid{grid-template-columns:1fr}}
+@media(max-width:620px){.ad-subject-list>article{grid-template-columns:auto 1fr}.ad-subject-list>article>.ad-edit{grid-column:2}.ad-teacher-subject-grid .ad-toolbar>button{width:100%}}

@@ -1,0 +1,20 @@
+export const superBase='/dashboard/superadmin'
+export const superMenu=[['Dashboard','House',''],['Users Management','UsersRound','users'],['Schools & Centers','School','schools'],['Programs','BookOpen','programs'],['Reports','ClipboardList','reports'],['Analytics','ChartNoAxesCombined','analytics'],['System Settings','Settings','settings'],['Logs & Activity','ClipboardList','logs'],['Backup & Restore','HardDriveDownload','backup']]
+export const schoolsSeed=['ABC Main Center','Hodan Center','Abdullah Center','Boondheere Center','Karaama Center','Wadajir Center','Hamar Center','Dayniile Center'].map((name,i)=>({id:`SC-${i+1}`,name,location:'Mogadishu',students:[482,356,298,276,230,100,60,40][i],status:'Active',email:`center${i+1}@abc.edu`}))
+const given=['Amina','Mohamed','Fatima','Yusuf','Layla','Ahmed','Zahra','Fartuun','Omar','Hassan','Maryam','Abdi','Hawa','Said','Safiya','Khalid']
+const family=['Hassan','Ali','Ahmed','Noor','Omar','Yusuf','Ibrahim','Farah','Osman','Abdullah','Mohamed','Ismail','Jama','Abdi','Hussein','Adan']
+export const usersSeed=Array.from({length:248},(_,i)=>({id:`USR-${String(i+1).padStart(3,'0')}`,name:`${given[i%16]} ${family[Math.floor(i/16)]}`,email:`user${i+1}@abc.edu`,role:i<128?'Teacher':i<224?'Staff':'Administrator',school:schoolsSeed[i%8].id,status:'Active'}))
+export const programGroups=['Infant Care','Toddler Program','Early Learning','Kindergarten']
+export const programsSeed=Array.from({length:12},(_,i)=>({id:`PRG-${i+1}`,name:`${programGroups[i%4]}${i<4?'':i<8?' · Afternoon':' · Extended'}`,category:programGroups[i%4],age:['0–18 months','18–36 months','3–4 years','4–6 years'][i%4],enrolled:[111,135,160,210,110,135,159,209,110,135,159,209][i],status:'Active'}))
+export const logsSeed=[['New teacher account created','Fartuun Ahmed','User','UserRoundPlus'],['Student enrolled','Mohamed Ali (Kindergarten)','Enrollment','Sparkles'],['Program updated','Early Learning · 3rd Grade','Program','BookOpen'],['Center created','Karaama Center','Center','School'],['Payment recorded','$500.00 (Tuition Fee)','Payment','WalletCards']].map(([title,detail,type,icon],i)=>({id:`LOG-${i}`,title,detail,type,icon,time:new Date(Date.now()-(i+2)*3600000).toISOString(),actor:'Mohamed Hassan'}))
+export const alertsSeed=[['New user registered','Amina Yusuf (Teacher)','UserRound','pink'],['Student enrollment','3 new students added','CirclePlus','green'],['System backup completed','Daily backup successful','ShieldCheck','green'],['Payment received','$1,250.00 (School Fees)','BadgeDollarSign','orange'],['System update','Version 2.4.1 deployed','Info','blue']]
+export const enrollmentHistory={year:{labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep'],total:[720,950,1260,1300,1460,1420,1540,1750,1980],new:[280,390,340,320,420,380,450,630,810]},quarter:{labels:['Jul','Aug','Sep'],total:[1540,1750,1980],new:[450,630,810]}}
+export function validateBackup(value){
+ if(!value||value.version!==1||!value.data)throw new Error('Choose a valid ABC superadmin backup (version 1).')
+ const d=value.data
+ const valid=(key,fields)=>Array.isArray(d[key])&&d[key].length<=10000&&d[key].every(x=>x&&fields.every(f=>typeof x[f]==='string')&&typeof x.id==='string')&&new Set(d[key].map(x=>x.id)).size===d[key].length
+ if(!valid('users',['name','email','role','school','status'])||!valid('schools',['name','location','email','status'])||!valid('programs',['name','category','age','status'])||!valid('logs',['title','detail','type','icon','time','actor']))throw new Error('The backup contains missing or invalid records.')
+ if(d.schools.some(s=>!Number.isInteger(s.students)||s.students<0)||d.programs.some(p=>!Number.isInteger(p.enrolled)||p.enrolled<0)||d.users.some(u=>!d.schools.some(s=>s.id===u.school)))throw new Error('The backup contains invalid counts or school references.')
+ if(!d.settings||['name','school','email','timezone'].some(k=>typeof d.settings[k]!=='string')||typeof d.settings.notifications!=='boolean')throw new Error('The backup settings are invalid.')
+ return d
+}

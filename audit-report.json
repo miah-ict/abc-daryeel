@@ -1,0 +1,20 @@
+{
+  "agent": "10 audit agents",
+  "status": "PASS",
+  "missing": [],
+  "referenceImages": 11,
+  "routeTargets": [
+    "/",
+    "/login",
+    "/register",
+    "/dashboard/superadmin",
+    "/dashboard/admin",
+    "/dashboard/teacher",
+    "/dashboard/student",
+    "/dashboard/accountant",
+    "/dashboard/cleaner",
+    "/dashboard/cooking",
+    "/dashboard/driver",
+    "/dashboard/ict"
+  ]
+}

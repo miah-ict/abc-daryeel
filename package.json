@@ -1,0 +1,58 @@
+{
+  "name": "abc-daycare-react-premium",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/require-node.mjs",
+    "dev": "concurrently -k -n api,web \"npm:dev:server\" \"npm:dev:client\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "audit": "node scripts/run-cycle.mjs",
+    "audit:design": "node scripts/design-agents.mjs",
+    "audit:ui": "node scripts/audit-agents.mjs",
+    "predev:client": "node scripts/require-node.mjs",
+    "dev:client": "vite",
+    "predev:server": "node scripts/require-node.mjs",
+    "dev:server": "node --watch server/index.js",
+    "prestart": "node scripts/require-node.mjs",
+    "start": "node server/index.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "db:seed": "node server/db/seed.js",
+    "test": "node --test server/tests/*.test.js",
+    "check": "node scripts/check-source.mjs && node scripts/check-bindings.mjs"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.7",
+    "drizzle-orm": "^0.45.4",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "lucide-react": "^0.469.0",
+    "nodemailer": "^10.1.0",
+    "pg": "^8.23.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
+    "ws": "^8.22.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.29.8",
+    "@babel/parser": "^7.29.9",
+    "@babel/traverse": "^7.29.10",
+    "@electric-sql/pglite": "^0.5.9",
+    "@vitejs/plugin-react": "^5.2.0",
+    "concurrently": "^10.0.6",
+    "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
+    "vite": "^7.3.7"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}
