@@ -1,8 +1,102 @@
-# ABC Daycare & Kindergarten
+<div align="center">
 
-React 18 frontend with feature modules, an Express API, and Drizzle ORM on Neon PostgreSQL. Requires **Node 22.12+** (`.nvmrc` selects Node 22).
+# 🎓 ABC Daycare & Kindergarten
 
-## Setup
+### A secure, role-based school management platform
+
+Manage students, teachers, attendance, exams, finance, subscriptions, and school operations from one modern workspace.
+
+[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/Node.js-22.12%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express](https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white)](https://expressjs.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-4169E1?logo=postgresql&logoColor=white)](https://neon.tech/)
+[![Drizzle ORM](https://img.shields.io/badge/ORM-Drizzle-C5F74F?logo=drizzle&logoColor=111111)](https://orm.drizzle.team/)
+[![Security](https://img.shields.io/badge/Security-Hardened-16A34A?logo=shield&logoColor=white)](SECURITY_REPORT.md)
+
+![ABC Daycare interface preview](public/references/landing.png)
+
+</div>
+
+## ✨ What is ABC?
+
+ABC is a full-stack management system built for daycares, kindergartens, and schools. It gives every user a focused workspace while keeping school data separated and protected on the server.
+
+| Workspace | What it provides |
+| --- | --- |
+| 🛡️ **Superadmin** | School oversight, user provisioning, subscriptions, reports, audit logs, and platform settings |
+| 🏫 **Administrator** | Students, classes, teachers, academic years, exams, guardians, and daily operations |
+| 👩‍🏫 **Teacher** | Assigned classes, attendance, assessments, lesson plans, marks, and reports |
+| 👨‍🎓 **Student / Guardian** | Classes, attendance, assignments, grades, messages, gallery, and published results |
+| 💳 **Accountant** | Fee plans, invoices, collections, receipts, expenses, payroll, budgets, and closings |
+| 📊 **Manager** | School-level operational dashboards, reports, and controlled management workflows |
+
+## 🖼️ Product preview
+
+The images below are UI design previews for the role-based workspaces.
+
+<table>
+  <tr>
+    <td width="50%"><img src="public/references/admin.png" alt="Administrator dashboard" /><br/><sub>🏫 Administrator workspace</sub></td>
+    <td width="50%"><img src="public/references/teacher.png" alt="Teacher dashboard" /><br/><sub>👩‍🏫 Teacher workspace</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="public/references/student.png" alt="Student dashboard" /><br/><sub>👨‍🎓 Student and guardian workspace</sub></td>
+    <td width="50%"><img src="public/references/accountant.png" alt="Accountant dashboard" /><br/><sub>💳 Finance workspace</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="public/references/superadmin.png" alt="Superadmin dashboard" /><br/><sub>🛡️ Superadmin workspace</sub></td>
+  </tr>
+</table>
+
+## 🚀 Highlights
+
+- 🔐 Role-based authentication with server-side authorization on protected routes.
+- 🏢 School-scoped records and ownership checks for multi-tenant isolation.
+- 🧾 Atomic finance operations for invoices, payments, receipts, refunds, and closings.
+- 📝 Complete exam lifecycle: drafts, submission, publishing, rankings, and progression.
+- ⚡ Conflict-aware workspace saves that prevent stale updates from overwriting newer data.
+- 📱 Responsive React interface with dedicated workspaces for each role.
+- 💰 Sifalo Hosted Checkout integration for monthly school subscriptions.
+- 🧪 Automated API, frontend, finance, tenancy, and exam-flow tests.
+
+## 🔒 Security by design
+
+Security controls are applied across the frontend, API, database access layer, and deployment configuration:
+
+- Secrets remain server-only; local `.env` files, private keys, certificates, logs, and build output are excluded from Git.
+- Passwords are hashed, JWT signing secrets are validated, and account status/role is rechecked on authenticated requests.
+- API input is validated, database access is parameterized through Drizzle ORM, and API responses avoid returning password hashes.
+- CORS uses an explicit trusted origin, production proxy settings are controlled, and security headers are enabled.
+- API-wide and stricter authentication rate limits reduce automated abuse on a single server instance.
+- Database operations enforce school ownership and record-level access; finance writes use transactions and immutable audit history.
+- Uploaded files are not accepted by the current API, reducing file-upload attack surface.
+- Production errors are sanitized and debug details are not exposed to clients.
+
+See the detailed [security implementation report](SECURITY_REPORT.md) for the completed audit, controls, and verification results.
+
+## 🧰 Technology
+
+| Layer | Stack |
+| --- | --- |
+| Frontend | React 18, React Router, Vite, Lucide icons |
+| API | Node.js 22, Express 5, Zod validation |
+| Data | PostgreSQL / Neon, Drizzle ORM |
+| Authentication | JWT, bcrypt password hashing, server-side role checks |
+| Email & billing | Nodemailer, Sifalo Hosted Checkout |
+| Quality | Node test runner, PGlite, source and binding checks |
+
+## 📚 Contents
+
+- [Quick start](#-quick-start)
+- [Project structure](#-project-structure)
+- [API overview](#-api-overview)
+- [Sifalo subscriptions](#-sifalo-monthly-subscriptions)
+- [Verification](#-verification)
+- [Deployment and product limits](#-deployment-and-product-limits)
+
+## ⚡ Quick start
+
+Requires **Node.js 22.12+**. The included `.nvmrc` selects Node 22.
 
 ```bash
 nvm use
@@ -20,11 +114,11 @@ npm run dev
 
 Open `http://localhost:5173`, then sign in using `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`. The API runs on port 5000; Vite proxies `/api` to it. `PORT` changes both the API listener and proxy target. `CLIENT_ORIGIN` must match the browser origin.
 
-The seed is explicitly for an **empty development database** and refuses to overwrite existing accounts. It imports the original fixture data, reconciles the student directories into one roster, and creates a superadmin with your configured password. Other seeded directory accounts have no password and cannot sign in until a superadmin provisions one. Set credentials and roles through Users Management or `/api/users`. Assign guardian and teacher accounts through the admin student editor. Public registration creates guardian (`student`) accounts with no linked children; it never grants staff privileges.
+The seed is explicitly for an **empty development database**. It creates the configured superadmin without overwriting an account that already uses the same email address. Create and manage additional accounts through Users Management or `/api/users`. Public registration creates an unverified school administrator account; after email verification, the administrator completes plan payment and school onboarding. It does not allow a registrant to select an elevated platform role.
 
 `npm run db:generate` creates SQL migrations after schema edits. `npm run db:push` is available for disposable development databases. Applying migrations to a live database requires its actual connection URL; the repository does not contain Neon credentials.
 
-## Structure
+## 🗂️ Project structure
 
 - `src/app/`: router, authentication, workspace loading/persistence, theme providers.
 - `src/components/ui/` and `src/components/layout/`: shared visuals and layout.
@@ -38,17 +132,17 @@ The seed is explicitly for an **empty development database** and refuses to over
 
 Student, user, attendance, invoice, transaction, fee plan, bill, receipt, refund, budget, closing, and finance settings records use relational tables. Lessons, classroom settings, assignments, conversation notes, school/program directories, and migrated read-only content use JSONB workspace payloads. IDs remain text to retain existing fixture references; new accounts and API records use UUID strings.
 
-School records no longer use localStorage. Session tokens are kept in sessionStorage, checked against the server on reload, and cleared on sign-out/expiry. Theme preference is the only localStorage state. Each workspace loads before its controls render. Saves are atomic; all canonical API writes also advance the school revision. Conflicting writes stop editing and offer a reload, rather than overwriting someone else's records. Failed writes display a persistent error. Wait for saving to finish before closing the tab; there is no offline save queue.
+School records are not stored in localStorage. Browser authentication uses an HttpOnly, SameSite=Strict session cookie, marked Secure in production; the frontend confirms the active session with the server. Theme preference is the only localStorage state. Each workspace loads before its controls render. Saves are atomic; all canonical API writes also advance the school revision. Conflicting writes stop editing and offer a reload, rather than overwriting someone else's records. Failed writes display a persistent error. Wait for saving to finish before closing the tab; there is no offline save queue.
 
 Teachers see assigned students; guardians see linked children and their attendance. Accountants cannot access user administration, and public registration cannot select an elevated role. JWT verification rechecks account status and role on every request. Finance records are scoped to the accountant's school. Invoice payments update the balance, ledger, and receipt in one transaction, reject overpayments, and accept an optional idempotency key for safe retry. Refunds retain the original posting and add a reversing entry. A closed day or month rejects new postings in that period.
 
-## API
+## 🔌 API overview
 
-All endpoints except auth, health, and Sifalo's return/webhook callbacks require `Authorization: Bearer <token>`.
+Protected endpoints accept the secure browser session cookie; `Authorization: Bearer <token>` remains available for API clients. Public exceptions—such as health checks, selected authentication steps, billing plans, and verified Sifalo callbacks—are explicitly mounted by the server. Some authentication routes, including account details and onboarding, still require an active session.
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /api/auth/login`, `POST /api/auth/register`, `GET /api/auth/me` | Authenticated sessions and guardian registration |
+| `POST /api/auth/login`, `POST /api/auth/register`, `GET /api/auth/me` | Session login, new school-administrator registration, and current account |
 | `GET /api/health` | Check database connectivity |
 | `GET/POST /api/users`, `PUT /api/users/:id` | Superadmin account provisioning; passwords are optional, never returned |
 | `GET /api/superadmin/users`, `GET /api/superadmin/logs` | User directory and authoritative API audit trail |
@@ -71,7 +165,7 @@ All endpoints except auth, health, and Sifalo's return/webhook callbacks require
 | `GET /api/dashboard/:role` | Role summary |
 | `GET/PUT /api/workspace/:role` | Existing role workflows with revision checks |
 
-### Sifalo monthly subscriptions
+### 💸 Sifalo monthly subscriptions
 
 New school administrators must activate a monthly plan before school onboarding. Standard is USD 1/month with one active manager and one active accountant; Enterprise is USD 10/month with two of each. Payments use Sifalo Hosted Checkout, so wallet and card details never enter this application. The server activates access only after verifying that Sifalo returned both `status: "success"` and `code: 601`.
 
@@ -86,7 +180,7 @@ Configure `SIFALO_ENV`, `SIFALO_API_USER`, `SIFALO_API_KEY`, and a public `PUBLI
 | `GET /api/billing/subscription` | Read the administrator's current access |
 | `GET /api/billing/payment/:orderId` | Reconcile a pending, owned payment |
 
-## Verification
+## ✅ Verification
 
 ```bash
 npm run check
@@ -96,7 +190,7 @@ npm run build
 
 Tests use embedded PostgreSQL (PGlite) and Node HTTP streams to exercise Express without an external database or network listener. They cover authentication, school isolation, attendance validation, stale writes, exam mark locking, tied rankings, publication, main/re-exam/course promotion, course enrollment, year transition, finance payments and receipts, idempotent retry, payroll duplicates, refunds, budget totals, and period locks. Frontend tests compile and render all role route sections with seeded and empty database payloads, without opening a web server. `npm run check` parses JavaScript/JSX and checks local imports and frontend bindings. The existing design audit scripts remain available.
 
-## Deployment and remaining product limits
+## 🚢 Deployment and product limits
 
 Build the frontend with `npm run build` and serve `dist/` with SPA fallback. Start the API with `npm start` behind HTTPS. Route `/api` to Express on the same public origin and set `CLIENT_ORIGIN` accordingly. Use a production secret and a separate production database; do not load development fixtures into production.
 
