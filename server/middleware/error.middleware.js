@@ -24,7 +24,7 @@ export function errorMiddleware(err, req, res, next) {
     }
   }
   if (status >= 500 && isTransientDatabaseError(err)) res.set('Retry-After', '2')
-  const serverMessage = err.name === 'SifaloError'
+  const serverMessage = err.name === 'SifaloError' || err instanceof HttpError
     ? err.message
     : 'The database service is temporarily unavailable. Please retry in a moment.'
   res.status(status).json({ error: status >= 500 ? serverMessage : err.code === '23505' ? 'This record already exists.' : err.code === '23503' ? 'A referenced record does not exist.' : err.name === 'ZodError' ? err.issues.map(i => `${i.path.join('.')}: ${i.message}`).join('; ') : err.message })

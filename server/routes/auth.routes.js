@@ -100,7 +100,16 @@ export function authRoutes(db, env, auth) {
       firstLogin: false // Admins set their own password initially
     }).returning())
     
-    await sendVerification(data.email, verification)
+    try {
+      await sendVerification(data.email, verification)
+    } catch (error) {
+      try {
+        await db.delete(users).where(and(eq(users.id, user.id), eq(users.isVerified, false)))
+      } catch (cleanupError) {
+        console.error('Failed to remove an account after verification email delivery failed:', cleanupError.message)
+      }
+      throw error
+    }
     
     res.status(201).json({ message: 'Registration successful. Check email for verification code.' })
   }))
