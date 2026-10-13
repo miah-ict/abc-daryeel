@@ -16,6 +16,9 @@ const schema = z.object({
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
   SMTP_FROM: z.string().optional(),
+  BREVO_API_KEY: z.string().trim().min(1).optional(),
+  BREVO_SENDER_EMAIL: z.string().trim().email().optional(),
+  BREVO_SENDER_NAME: z.string().trim().min(1).max(120).default('ABC Daycare'),
 }).superRefine((env, ctx) => {
   if (env.NODE_ENV !== 'production') return
   for (const [field, value] of [['CLIENT_ORIGIN', env.CLIENT_ORIGIN], ['PUBLIC_APP_URL', env.PUBLIC_APP_URL]]) {
