@@ -23,8 +23,9 @@ import { examsV2Routes } from './routes/exams-v2.routes.js'
 import { billingPublicRoutes, billingRoutes } from './routes/billing.routes.js'
 import { systemLogs,users } from './db/schema/index.js'
 import { corsOptions, enforceCookieOrigin, rateLimit, securityHeaders, validateRequestShape } from './middleware/security.middleware.js'
+import { createEmailService } from './services/email.js'
 export function createApp(db,env) {
- const app=express(),auth=authenticate(db,env)
+ const app=express(),auth=authenticate(db,env),emailService=createEmailService(env)
  app.disable('x-powered-by')
  if (env.TRUST_PROXY) app.set('trust proxy', 1)
  app.use(securityHeaders(env))
@@ -32,7 +33,7 @@ export function createApp(db,env) {
  app.use(express.json({limit:'2mb'}))
  app.use(validateRequestShape)
  app.use('/api', rateLimit({limit: env.NODE_ENV === 'test' ? 10_000 : 300}))
- app.get('/api/health',asyncRoute(async(req,res)=>{await db.execute(sql`select 1`);res.json({status:'ok',database:'connected'})}))
+ app.get('/api/health',asyncRoute(async(req,res)=>{await db.execute(sql`select 1`);res.json({status:'ok',database:'connected',email:{configured:emailService.configured,provider:emailService.provider}})}))
  app.use('/api/auth',authRoutes(db,env,auth))
  app.use('/api/billing',billingPublicRoutes(db,env))
  app.use('/api',auth)

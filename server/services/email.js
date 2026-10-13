@@ -22,6 +22,7 @@ function brevoService(env) {
   }
   return {
     configured: true,
+    provider: 'brevo-api',
     verify: async () => true,
     sendCourseNotice: ({ email, studentName, courseName, startDate, endDate, fee, paymentType }) => send({
       email,
@@ -37,10 +38,10 @@ function brevoService(env) {
 }
 
 export function createEmailService(env) {
-  if (env.NODE_ENV === 'test') return { configured: true, verify: async () => {}, sendVerificationCode: async () => {}, sendCourseNotice: async () => {} }
+  if (env.NODE_ENV === 'test') return { configured: true, provider: 'test', verify: async () => {}, sendVerificationCode: async () => {}, sendCourseNotice: async () => {} }
   if (env.BREVO_API_KEY && env.BREVO_SENDER_EMAIL) return brevoService(env)
   const missing = keys.filter(key => !env[key])
-  if (missing.length) return { configured: false, missing }
+  if (missing.length) return { configured: false, provider: 'unconfigured', missing }
   const transporter = nodemailer.createTransport({
     host: env.SMTP_HOST, port: env.SMTP_PORT, secure: env.SMTP_PORT === 465,
     auth: { user: env.SMTP_USER.trim(), pass: env.SMTP_PASS.replace(/\s+/g, '') },
@@ -48,6 +49,7 @@ export function createEmailService(env) {
   })
   return {
     configured: true,
+    provider: 'smtp',
     verify: () => transporter.verify(),
     sendCourseNotice: ({ email, studentName, courseName, startDate, endDate, fee, paymentType }) => transporter.sendMail({
       from: env.SMTP_FROM, to: email, subject: `${studentName} has been enrolled in ${courseName}`,

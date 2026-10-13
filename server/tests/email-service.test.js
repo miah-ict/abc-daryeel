@@ -16,6 +16,7 @@ test('Brevo HTTP transport sends verification mail without SMTP', async () => {
       BREVO_SENDER_EMAIL: 'sender@example.com',
       BREVO_SENDER_NAME: 'ABC Daycare',
     })
+    assert.equal(service.provider, 'brevo-api')
     await service.sendVerificationCode({ email: 'parent@example.com', code: '123456' })
     assert.equal(request.url, 'https://api.brevo.com/v3/smtp/email')
     assert.equal(request.options.headers['api-key'], 'test-api-key')
