@@ -1,5 +1,7 @@
 import express from 'express'
 import cors from 'cors'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { and, desc, eq, like, or, sql } from 'drizzle-orm'
 import { authenticate,allow } from './middleware/auth.middleware.js'
 import { asyncRoute,errorMiddleware } from './middleware/error.middleware.js'
@@ -52,7 +54,15 @@ export function createApp(db,env) {
  app.use('/api/exams',examsRoutes(db))
  app.use('/api/academic-years',academicYearsRoutes(db))
  app.use('/api/student',studentPortalRoutes(db))
- app.use((req,res)=>res.status(404).json({error:'Endpoint not found.'}))
+ app.use('/api',(req,res)=>res.status(404).json({error:'Endpoint not found.'}))
+ if(env.NODE_ENV==='production'){
+  const dist=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../dist')
+  app.use(express.static(dist,{index:false,maxAge:'1h'}))
+  app.use((req,res,next)=>{
+   if(req.method!=='GET')return res.status(404).json({error:'Endpoint not found.'})
+   res.sendFile(path.join(dist,'index.html'),error=>error?next(error):undefined)
+  })
+ }else app.use((req,res)=>res.status(404).json({error:'Endpoint not found.'}))
  app.use(errorMiddleware)
  return app
 }
