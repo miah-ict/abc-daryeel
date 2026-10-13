@@ -78,7 +78,7 @@ See the detailed [security implementation report](SECURITY_REPORT.md) for the co
 
 | Layer | Stack |
 | --- | --- |
-| Frontend | React 18, React Router, Vite, Lucide icons |
+| Frontend | TypeScript, React 18, React Router, Vite, Lucide icons |
 | API | Node.js 22, Express 5, Zod validation |
 | Data | PostgreSQL / Neon, Drizzle ORM |
 | Authentication | JWT, bcrypt password hashing, server-side role checks |
@@ -124,7 +124,7 @@ The seed is explicitly for an **empty development database**. It creates the con
 - `src/components/ui/` and `src/components/layout/`: shared visuals and layout.
 - `src/features/{auth,dashboard,admin,teachers,students,finance,superadmin}/`: feature APIs, role controllers, and extracted route sections.
 - `src/pages/`: route entry points; role pages delegate to their feature workspaces.
-- `src/services/api.js`: authenticated fetch wrapper and API errors.
+- `src/services/api.ts`: authenticated fetch wrapper and API errors.
 - `server/routes/`: authenticated API endpoints and validation.
 - `server/db/schema/`: users, students, attendance, invoices, transactions, workspaces, and system audit logs.
 - `server/db/migrations/`: generated, committed SQL migrations.

@@ -14,7 +14,7 @@
 
 Build a modern, easy to use accountant workspace backed by school scoped PostgreSQL records. The requested modules are Income (Student Fees, Fee Collection, Outstanding Fees, Other Income), Expenses (Staff Payments and School Expenses), Receipts, Financial Reports, Daily Closing, Monthly Closing, Budget, Refunds, Invoices/Bills, Ledger, Audit, and Settings.
 
-Existing UI: `src/features/finance/components/AccountantWorkspace.jsx`, its section components, `src/data/accountantData.js`, and `src/styles/accountant.css`. The screen currently says “Demo ledger” and performs most actions through `useLocalState` / `/api/workspace/accountant`. Existing relational finance tables are only `invoices` and `transactions`. `POST /api/finance/payments` already updates an invoice and transaction atomically. Preserve that invariant.
+Existing UI: `src/features/finance/components/AccountantWorkspace.tsx`, its section components, `src/data/accountantData.ts`, and `src/styles/accountant.css`. The screen currently says “Demo ledger” and performs most actions through `useLocalState` / `/api/workspace/accountant`. Existing relational finance tables are only `invoices` and `transactions`. `POST /api/finance/payments` already updates an invoice and transaction atomically. Preserve that invariant.
 
 **Release blocker:** finance queries in `server/routes/finance.routes.js` and `readWorkspace` in `server/services/workspace.js` do not filter records by school, and finance tables have no `school_id`. Tenant isolation must be implemented and verified before exposing real records to school accountants.
 

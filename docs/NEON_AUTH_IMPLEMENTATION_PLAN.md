@@ -46,7 +46,7 @@ The app profile should use an immutable Neon Auth subject as its primary linkage
 
 ## Phase 3 — frontend authentication
 
-1. Add Neon’s supported JavaScript auth client and create a single `src/features/auth/lib/neon-auth.js` wrapper.
+1. Add Neon’s supported JavaScript auth client and create a single `src/features/auth/lib/neon-auth.ts` wrapper.
 2. Replace direct calls to `/api/auth/login` and `/api/auth/register` with the Neon Auth client’s sign-in and sign-up methods.
 3. Keep the present login and registration design, including pending, error, password visibility, accessibility labels, and the post-login role redirect.
 4. Make the auth provider hydrate the Neon session before rendering protected routes. It must render a loading state until that check finishes.

@@ -1,0 +1,23 @@
+import {api} from '../../../services/api'
+type Id = string | number
+type Payload = Record<string, unknown>
+export const getStudents=()=>api('/students')
+export const createStudent=(body: Payload)=>api('/students',{method:'POST',body})
+export const updateStudent=(id: Id,body: Payload)=>api(`/students/${encodeURIComponent(id)}`,{method:'PUT',body})
+export const markAttendance=(body: Payload)=>api('/attendance',{method:'POST',body})
+export const createUser=(body: Payload)=>api('/users',{method:'POST',body})
+export const updateUser=(id: Id,body: Payload)=>api(`/users/${encodeURIComponent(id)}`,{method:'PUT',body})
+export const createClass=(body: Payload)=>api('/classes',{method:'POST',body})
+export const updateClass=(id: Id,body: Payload)=>api(`/classes/${encodeURIComponent(id)}`,{method:'PUT',body})
+export const getExams=()=>api('/exams')
+export const createExam=(body: Payload)=>api('/exams',{method:'POST',body})
+export const publishExam=(id: Id)=>api(`/exams/${encodeURIComponent(id)}/publish`,{method:'POST'})
+export const cancelExam=(id: Id,reason: string)=>api(`/exams/${encodeURIComponent(id)}/cancel`,{method:'POST',body:{reason}})
+export const getExamResults=(id: Id)=>api(`/exams/${encodeURIComponent(id)}/results`)
+export const setFailedDecision=(examId: Id,studentId: Id,decision: string)=>api(`/exams/${encodeURIComponent(examId)}/results/${encodeURIComponent(studentId)}/decision`,{method:'PUT',body:{decision}})
+export const reopenExamAssignment=(id: Id,reason: string)=>api(`/exams/assignments/${encodeURIComponent(id)}/reopen`,{method:'POST',body:{reason}})
+export const getCourses=(id: Id)=>api(`/exams/${encodeURIComponent(id)}/courses`)
+export const addCourseStudent=(id: Id,body: Payload)=>api(`/exams/${encodeURIComponent(id)}/courses`,{method:'POST',body})
+export const getAcademicYears=()=>api('/academic-years')
+export const createAcademicYear=(body: Payload)=>api('/academic-years',{method:'POST',body})
+export const startAcademicYear=(id: Id)=>api(`/academic-years/${encodeURIComponent(id)}/start`,{method:'POST'})

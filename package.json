@@ -22,7 +22,8 @@
     "db:push": "drizzle-kit push",
     "db:seed": "node server/db/seed.js",
     "test": "node --test server/tests/*.test.js",
-    "check": "node scripts/check-source.mjs && node scripts/check-bindings.mjs"
+    "typecheck": "tsc --noEmit",
+    "check": "node scripts/check-source.mjs && node scripts/check-bindings.mjs && npm run typecheck"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.2.0",
@@ -46,10 +47,13 @@
     "@babel/parser": "^7.29.9",
     "@babel/traverse": "^7.29.10",
     "@electric-sql/pglite": "^0.5.9",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react": "^5.2.0",
     "concurrently": "^10.0.6",
     "drizzle-kit": "^0.31.11",
     "esbuild": "^0.28.2",
+    "typescript": "^7.0.2",
     "vite": "^7.3.7"
   },
   "engines": {

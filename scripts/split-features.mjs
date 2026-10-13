@@ -3,7 +3,7 @@ import path from 'node:path'
 import {createRequire} from 'node:module'
 const require=createRequire(import.meta.url),{parse}=require('@babel/parser'),traverse=require('@babel/traverse').default,generate=require('@babel/generator').default
 for(const feature of ['admin','teachers','students','finance','superadmin']) {
- const dir=`src/features/${feature}/components`,file=fs.readdirSync(dir).find(n=>n.endsWith('Workspace.jsx'))
+ const dir=`src/features/${feature}/components`,file=fs.readdirSync(dir).find(n=>n.endsWith('Workspace.tsx'))
  const source=fs.readFileSync(path.join(dir,file),'utf8'),ast=parse(source,{sourceType:'module',plugins:['jsx']})
  const imports=ast.program.body.filter(n=>n.type==='ImportDeclaration').map(n=>source.slice(n.start,n.end)).join('\n')
  const edits=[],newImports=[];let count=0

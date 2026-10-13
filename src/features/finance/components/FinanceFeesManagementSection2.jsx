@@ -1,6 +1,0 @@
-import Icon from '../../../components/ui/Icon'
-import { money } from '../../../data/accountantData';
-
-export default function FinanceFeesManagementSection2({feePlans, match, setModal, Panel, summary, filterBar, outstandingTable, pending, student}) {
- return (<><div className="ac-section-heading"><h2>Class Fee Plans</h2><span>Monthly fee schedules · USD</span></div><div className="ac-plan-grid">{feePlans.filter(p=>match(p.name,p.class)).map((plan,i)=><section className="ac-panel ac-plan" key={plan.id}><span className={`ac-icon ${['blue','violet','mint','amber'][i%4]}`}><Icon name="School" size={25}/></span><span className="ac-plan-kicker">{plan.class}</span><h2>{plan.name}</h2><strong>{money(plan.tuition+plan.materials+plan.transport)}<small>/ month</small></strong><dl><dt>Tuition</dt><dd>{money(plan.tuition)}</dd><dt>Learning materials</dt><dd>{money(plan.materials)}</dd><dt>Transport</dt><dd>{money(plan.transport)}</dd></dl><button className="ac-button secondary" onClick={()=>setModal({kind:'fee',item:plan})}><Icon name="Pencil" size={14}/>Edit Fee Plan</button></section>)}</div><Panel title="Outstanding Student Fees" icon="BadgeDollarSign" action={<span className="ac-total">{money(summary.pending)} outstanding</span>}>{filterBar(null,'Search student fees…')}{outstandingTable(pending.filter(i=>match(student(i.studentId)?.name)))}</Panel></>)
-}

@@ -1,9 +1,9 @@
 import {initialStudents,initialTeachers,initialStaff,initialClasses,initialSubjects} from './adminSeed.js'
-import {teacherStudents,initialLessons,initialAssignments,initialScores,initialThreads,initialActivity,teacherSchedule,dateKey} from '../../src/data/teacherData.js'
-import {studentAssignments,studentThreads,makeStudentAttendance,studentSubjects,studentActivities,studentAnnouncements,studentGallery} from '../../src/data/studentData.js'
-import {financeStudents,seedTransactions,seedInvoices,seedFeePlans} from '../../src/data/accountantData.js'
-import {schoolsSeed,usersSeed,programsSeed,logsSeed,alertsSeed,enrollmentHistory} from '../../src/data/superadminData.js'
-import {DASH} from '../../src/data/dashboardData.js'
+import {teacherStudents,initialLessons,initialAssignments,initialScores,initialThreads,initialActivity,teacherSchedule,dateKey} from '../../src/data/teacherData.ts'
+import {studentAssignments,studentThreads,makeStudentAttendance,studentSubjects,studentActivities,studentAnnouncements,studentGallery} from '../../src/data/studentData.ts'
+import {financeStudents,seedTransactions,seedInvoices,seedFeePlans} from '../../src/data/accountantData.ts'
+import {schoolsSeed,usersSeed,programsSeed,logsSeed,alertsSeed,enrollmentHistory} from '../../src/data/superadminData.ts'
+import {DASH} from '../../src/data/dashboardData.ts'
 const today=dateKey()
 export const fixtures = {
 manager:Object.fromEntries(['teachers','staff','students','classes','schedule','teacher-attendance','staff-attendance','substitutes','monitoring','leave-requests','expenses','procurements','maintenance','kitchen','transport','tasks','messages','activity','reports'].map(k=>[`abc-manager-${k}`,[]]).concat([['abc-manager-settings',{notifications:true,weekly:true}],['abc-manager-dark',false]])),

@@ -2,7 +2,7 @@
 
 ## Planning contract
 
-This draft translates the supplied Somali implementation plan into 20 independently reviewable work packages. The repository already has a first exam implementation in `server/db/schema/exams.js`, `server/routes/exams.routes.js`, `src/features/admin/components/AdminExamsSection.jsx`, `src/features/teachers/components/TeachersExamsSection.jsx`, and `src/features/students/components/StudentsGradesSection4.jsx`; the work below evolves that baseline instead of rebuilding it blindly.
+This draft translates the supplied Somali implementation plan into 20 independently reviewable work packages. The repository already has a first exam implementation in `server/db/schema/exams.js`, `server/routes/exams.routes.js`, `src/features/admin/components/AdminExamsSection.tsx`, `src/features/teachers/components/TeachersExamsSection.tsx`, and `src/features/students/components/StudentsGradesSection4.tsx`; the work below evolves that baseline instead of rebuilding it blindly.
 
 **Mandatory gate:** every item starts in `Proposed`. An implementer may move it to `In progress` only after the manager confirms its scope and dependencies. It may move to `Done` only after the manager reviews the listed acceptance evidence and records `Manager confirmation: approved`.
 
@@ -12,7 +12,7 @@ This draft translates the supplied Somali implementation plan into 20 independen
   - **Objective:** Limit Class create/edit to class name, education level, section, academic year, room, and capacity, while preserving a premium, low-friction admin experience.
   - **Owner:** Senior Design/Frontend 1.
   - **Manager confirmation gate:** Approve the six-field contract before implementation; approve responsive/a11y evidence before Done.
-  - **Scope / likely files:** `src/features/admin/components/AdminWorkspace.jsx`, `src/features/admin/components/AdminClassesSection1.jsx`, `src/styles/admin.css`, `src/features/admin/api/adminApi.js`; coordinate API payload changes with `BE-01`/`BE-02`.
+  - **Scope / likely files:** `src/features/admin/components/AdminWorkspace.tsx`, `src/features/admin/components/AdminClassesSection1.tsx`, `src/styles/admin.css`, `src/features/admin/api/adminApi.ts`; coordinate API payload changes with `BE-01`/`BE-02`.
   - **Acceptance criteria:** The modal exposes only the six agreed fields; cards no longer present next-class or accelerated-course controls as class attributes; validation, loading, failure, empty, edit, and mobile states are designed; existing class identity data remains editable; progression/course settings are linked from Exam Settings rather than duplicated.
   - **Dependencies:** Manager approval; `RES-02` field/data inventory; final API contract from `BE-01` and `BE-02`.
   - **Risk:** Removing inputs before migration/API compatibility is ready can silently reset legacy progression values.
@@ -42,7 +42,7 @@ This draft translates the supplied Somali implementation plan into 20 independen
   - **Objective:** Give teachers a clear assignment queue and safe mark sheet, and give admins live class/subject completion monitoring with actionable late/missing states.
   - **Owner:** Senior Design/Frontend 4.
   - **Manager confirmation gate:** Approve deadline/status presentation before implementation; approve both role journeys before Done.
-  - **Scope / likely files:** `src/features/teachers/components/TeachersExamsSection.jsx`, `src/features/admin/components/AdminExamsSection.jsx`, `src/features/teachers/api/teacherApi.js`, `adminApi.js`, `src/styles/teacher.css`, `src/styles/admin.css`.
+  - **Scope / likely files:** `src/features/teachers/components/TeachersExamsSection.tsx`, `src/features/admin/components/AdminExamsSection.tsx`, `src/features/teachers/api/teacherApi.ts`, `adminApi.js`, `src/styles/teacher.css`, `src/styles/admin.css`.
   - **Acceptance criteria:** Teacher cards show exam, class, subject, max mark, deadline, time remaining, roster count, and Draft/Submitted/Late status; score inputs use the assignment maximum and identify empty/invalid rows; draft and final-submit feedback is durable; submitted sheets are read-only until reopened; admin sees overall and per-class percentages, submitted/pending/late subjects, responsible teacher, deadline, and missing-mark count; Publish clearly explains why it is disabled.
   - **Dependencies:** `RES-01` late-submission rule, `BE-03` deadlines/max-marks status contract, `QA-02` boundary fixes.
   - **Risk:** Client clocks and server clocks can disagree around deadlines, and large rosters may degrade input responsiveness.
@@ -52,7 +52,7 @@ This draft translates the supplied Somali implementation plan into 20 independen
   - **Objective:** Surface the complete student lifecycle to admins and students without mixing main-exam, re-exam, course, and promotion records.
   - **Owner:** Senior Design/Frontend 5.
   - **Manager confirmation gate:** Approve visibility/consent flows before implementation; approve lifecycle evidence before Done.
-  - **Scope / likely files:** `AdminExamsSection.jsx`, new admin course/re-exam components, `src/features/students/components/StudentsGradesSection4.jsx`, related student dashboard components, `adminApi.js`, `studentApi.js`, `admin.css`, `student.css`.
+  - **Scope / likely files:** `AdminExamsSection.jsx`, new admin course/re-exam components, `src/features/students/components/StudentsGradesSection4.tsx`, related student dashboard components, `adminApi.js`, `studentApi.js`, `admin.css`, `student.css`.
   - **Acceptance criteria:** Admin can triage failed students into Repeat/Re-exam/Special review and create a scoped re-exam; course roster shows eligibility, capacity, fees, payment, manual-add reason, and lifecycle status; student sees upcoming exams, published subject marks, average/rank/outcome, re-exam notice, course invitation with Accept/Decline/parent-confirmation/payment state, current/next class, and immutable promotion history; unpublished data is never rendered; all states work on mobile and with empty data.
   - **Dependencies:** `RES-01`, `RES-04`, `BE-04`, `BE-05`.
   - **Risk:** Showing eligibility before publication or showing guardian-only actions to a student can leak decisions or bypass consent.
@@ -188,7 +188,7 @@ This draft translates the supplied Somali implementation plan into 20 independen
   - **Objective:** Decide how exam assignments are generated when the current system has workspace subject arrays and relational `portal_subjects`/`class_subjects` with schedule-level rows.
   - **Owner:** Research/Gap Analysis 3.
   - **Manager confirmation gate:** Approve the proposed source of truth and algorithm; no implementation starts while this remains unresolved.
-  - **Scope / likely files:** `src/features/admin/components/AdminTeachersSubjectsSection.jsx`, workspace persistence, `server/db/schema/student-portal.js`, student portal routes, exam creation code; output `docs/EXAM_ASSIGNMENT_SOURCE.md`.
+  - **Scope / likely files:** `src/features/admin/components/AdminTeachersSubjectsSection.tsx`, workspace persistence, `server/db/schema/student-portal.js`, student portal routes, exam creation code; output `docs/EXAM_ASSIGNMENT_SOURCE.md`.
   - **Acceptance criteria:** Document a canonical data model, duplicate/override rules, active-status and date semantics, co-teacher handling, subjects without teachers, teacher replacement after session creation, and migration from workspace JSON; include the exact deterministic assignment-generation algorithm and error contract.
   - **Dependencies:** `RES-02`; academic/operations owner input.
   - **Risk:** Using timetable rows directly can duplicate a subject once per weekday, while using only workspace JSON can ignore server-backed assignments.

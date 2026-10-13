@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import {buildClassPayload,classEditorFields} from '../../src/features/admin/components/adminClassForm.js'
-import {EXAM_V2_UNSUPPORTED,buildPolicyRules,loadAdminExamV2,requireExamV2Write} from '../../src/features/exams/v2/examV2Adapter.js'
+import {buildClassPayload,classEditorFields} from '../../src/features/admin/components/adminClassForm.ts'
+import {EXAM_V2_UNSUPPORTED,buildPolicyRules,loadAdminExamV2,requireExamV2Write} from '../../src/features/exams/v2/examV2Adapter.ts'
 
 test('class create owns exactly the six approved fields',()=>{
  const payload=buildClassPayload({name:'Grade 7A',level:'Middle',section:'A',academicYear:'2026–2027',room:'201',capacity:'32'})

@@ -22,7 +22,7 @@ Current `portal_subjects` and `class_subjects` are the closest relational basis 
 
 ## Why the current generator cannot remain
 
-The current browser loops selected classes and workspace subjects, then selects the first teacher whose ID appears in the subject and whose optional `classIds` is empty or contains the class (`src/features/admin/components/AdminExamsSection.jsx:17-23`). The backend accepts the resulting free-text subject and verifies only that teacher/class belong to the school (`server/routes/exams.routes.js:37-43`). Consequences:
+The current browser loops selected classes and workspace subjects, then selects the first teacher whose ID appears in the subject and whose optional `classIds` is empty or contains the class (`src/features/admin/components/AdminExamsSection.tsx:17-23`). The backend accepts the resulting free-text subject and verifies only that teacher/class belong to the school (`server/routes/exams.routes.js:37-43`). Consequences:
 
 - array order silently chooses between co-teachers;
 - an empty teacher `classIds` list means every class;
