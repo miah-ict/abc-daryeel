@@ -4,10 +4,13 @@ const unsafeKeys = new Set(['__proto__', 'prototype', 'constructor'])
 const stateChanging = new Set(['POST', 'PUT', 'PATCH', 'DELETE'])
 
 export function securityHeaders(env) {
-  return (_req, res, next) => {
+  return (req, res, next) => {
+    const apiRequest = req.path === '/api' || req.path.startsWith('/api/')
     res.set({
       'Cache-Control': 'no-store',
-      'Content-Security-Policy': "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
+      'Content-Security-Policy': apiRequest
+        ? "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'"
+        : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Resource-Policy': 'same-origin',
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
